@@ -19,9 +19,7 @@ $ docker compose -f docker-compose.yml up -d
 # docker compose -f docker-compose-gpu.yml up -d
   ```
 3. 源码启动(uv版见官方文档 使用conda启动 )：
-  ```bash
-  npm start
-  ```
-
+4.配置文件
+![alt text](image.png)
 
 如需更多信息，请访问 [Ragflow 官方文档](https://github.com/infiniflow/ragflow)。
