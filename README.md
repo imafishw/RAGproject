@@ -72,9 +72,25 @@ python .\rag\svr\task_executor.py
 #启动后端api服务的
 python api/ragflow_server.py
 ```
-
+**注意：**
 启动成功(共有三个启动文件)
 ![alt text](image-2.png)
 
 
-**如需更多信息，请访问 [Ragflow 官方文档](https://github.com/infiniflow/ragflow)。**
+**常见问题：**
+``` bash
+很多时候问题都可以通过查看日志来解决
+1、当部署成功若是第一次使用会有一个初始化的过程
+2、如果是使用docker启动的会在docker容器中查看日志
+3、可以通过以下命令查看docker容器的日志：
+    docker ps
+    docker logs <container_id>
+4、有时候在询问大模型的时候很久未响应可能因为huggingface的模型下载失败
+export HF_ENDPOINT=https://hf-mirror.com 
+   
+   
+```
+部署成功
+![alt text](image-3.png)
+
+## 二次开发以及性能优化 
