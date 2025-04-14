@@ -93,4 +93,55 @@ export HF_ENDPOINT=https://hf-mirror.com
 部署成功
 ![alt text](image-3.png)
 
-## 二次开发以及性能优化 
+## 二、二次开发以及性能优化
+### 1. 表结构 
+ragflow 共有十八张数据表 作为二次开发我们重点关注的表有用户表和租客表 ，用户表信息如下
+![alt text](image-4.png)
+租客表信息如下
+![alt text](image-5.png)
+```python
+import mysql.connector
+import os
+from utils import generate_uuid, encrypt_password
+from datetime import datetime
+
+# 检测是否在Docker容器中运行
+def is_running_in_docker():
+    # 检查是否存在/.dockerenv文件
+    docker_env = os.path.exists('/.dockerenv')
+    # 或者检查cgroup中是否包含docker字符串
+    try:
+        with open('/proc/self/cgroup', 'r') as f:
+            return docker_env or 'docker' in f.read()
+    except:
+        return docker_env
+
+# 根据运行环境选择合适的主机地址
+DB_HOST = 'host.docker.internal' if is_running_in_docker() else 'localhost'
+
+# 数据库连接配置
+db_config = {
+    "host": DB_HOST,
+    "port": 5455,
+    "user": "root",
+    "password": "infini_rag_flow",
+    "database": "rag_flow",
+}
+
+```
+使用上面那段代码可以连接到MySQL数据库
+
+### 2.知识库构建以及数据预处理
+要用好rag的输出增强效果，文档解析是关键一环。如果文档解析块存在问题，那么后面检索到的内容，也会对模型造成错误干扰。前文分析过，
+ 有两大问题一是上传文件的时候由于开源的文档解析器解析效果对于不同文档不是很全面尤其是表格这类型。
+1. 解决办法
+ 对比excel表格 发现转换成pdf后效果会好很多
+![alt text](00f2295b0fc561206a265e0c155ac23.png)
+genaral 方法解析 
+![alt text](8d3a32504c92b240c37a28183b768c2.png)
+将excel转换成pdf 在解析成功率高了很多
+![alt text](52fb08d2f9e4c76ad00bdada9efd7a8.png)
+ragflow使用自研的Deepdoc算法对不同类型的文档进行解析，然而，对于pdf文件，在多数情况下的解析效果并不如意。下图中，所上传的论文为扫描版，扫描质量一般，在进行文档解析之后，出现了很多错别字，而且语句中的标点符号识别得相当糟糕。
+![alt text](image-6.png)
+对比
+![alt text](image-7.png)
