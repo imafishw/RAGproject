@@ -30,11 +30,11 @@ docker compose -f docker/docker-compose-base.yml up -d
   bash docker/launch_backend_service.sh
 ```
 **同时若用源码启动这里会有一个问题，我们的mysql redis es等组件会在docker容器中启动，如果使用源码启动如果修改了.env文件要同步修改配置文件service_conf.yaml的端口** 
-![alt text](image.png)
+![alt text](./imgstatic/image.png)
 
 **service_conf.yaml文件**
 
-![alt text](image-1.png)
+![alt text](./imgstatic/image-1.png)
 
 **例如使用docker启动我们修改的则是**
 **.env文件**
@@ -74,7 +74,7 @@ python api/ragflow_server.py
 ```
 **注意：**
 启动成功(共有三个启动文件)
-![alt text](image-2.png)
+![alt text](./imgstatic/image-2.png)
 
 
 **常见问题：**
@@ -91,14 +91,14 @@ export HF_ENDPOINT=https://hf-mirror.com
    
 ```
 部署成功
-![alt text](image-3.png)
+![alt text](./imgstatic/image-3.png)
 
 ## 二、二次开发以及性能优化
 ### 1. 表结构 
 ragflow 共有十八张数据表 作为二次开发我们重点关注的表有用户表和租客表 ，用户表信息如下
-![alt text](image-4.png)
+![alt text](./imgstatic/image9.png)
 租客表信息如下
-![alt text](image-5.png)
+![alt text](./imgstatic/image-6.png)
 ```python
 import mysql.connector
 import os
@@ -136,12 +136,12 @@ db_config = {
  有两大问题一是上传文件的时候由于开源的文档解析器解析效果对于不同文档不是很全面尤其是表格这类型。
 1. 解决办法
  对比excel表格 发现转换成pdf后效果会好很多
-![alt text](00f2295b0fc561206a265e0c155ac23.png)
+![alt text](./imgstatic/1.png)
 genaral 方法解析 
-![alt text](8d3a32504c92b240c37a28183b768c2.png)
+![alt text](./imgstatic/2.png)
 将excel转换成pdf 在解析成功率高了很多
-![alt text](52fb08d2f9e4c76ad00bdada9efd7a8.png)
+![alt text](./imgstatic/3.png)
 ragflow使用自研的Deepdoc算法对不同类型的文档进行解析，然而，对于pdf文件，在多数情况下的解析效果并不如意。下图中，所上传的论文为扫描版，扫描质量一般，在进行文档解析之后，出现了很多错别字，而且语句中的标点符号识别得相当糟糕。
-![alt text](image-6.png)
+![alt text](./imgstatic/image-6.png)
 对比
-![alt text](image-7.png)
+![alt text](./imgstatic/image-7.png)
