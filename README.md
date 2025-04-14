@@ -4,7 +4,7 @@
 
 
 
-## 快速开始
+## 快速开始(建议先使用官方原版熟练功能先)
 1. 克隆项目仓库：
   ```bash
   git clone https://github.com/infiniflow/ragflow.git
